@@ -1,4 +1,4 @@
-@import '../index';
+@import '../../index';
 
 /* Buttons
 ==========
@@ -9,47 +9,48 @@
 
 */
 
-%asc-button {
+$asc-button {
     display: inline-block;
 }
 
-%asc-button-skin-default {
+$asc-button-skin-default {
     color: white;
     background: blue;
 }
 
-@mixin ASCButton($selector: '.button', $skin: 'default') {
-    #{$selector} {
-        @include ASCExtend('%asc-button', $skin);
+ASCButton($selector = '.button', $skin = 'default') {
+    {$selector} {
+        ASCExtend('$asc-button', $skin);
     }
 }
 
 // Default declaration
-@include ASCRegisterComponent('ASCButton', '.button');
-@include ASCRegisterComponent('ASCButton', '.button2');
+ASCRegister('ASCButton', '.button');
+ASCRegister('ASCButton', '.button2');
 
 
 /* Other Skin
 ============= */
-%asc-button-skin-otherSkin {
+$asc-button-skin-otherSkin {
     color: white;
     background: red;
 }
 
 // Other skin usage
-@include ASCRegisterComponent('ASCButton', 'none-selector', (
+/*ASCRegisterComponent('ASCButton', 'none-selector', (
         'selector': '.test-btn',
         "skin": "otherSkin"
-));
+));*/
 
 
 /* Expose method
 ================ */
-@mixin exposeASCButton() {
+/*@mixin exposeASCButton() {
     @each $declaration, $params in map-get($ASComponents, "ASCButton") {
         @include ASCButton($params...);
     }
-}
+}*/
 
 // Expose them (do it in an other file)
-@include exposeASCButton();
+//@include exposeASCButton();
+ASCExpose();

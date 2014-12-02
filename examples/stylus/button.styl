@@ -1,0 +1,31 @@
+@require '../../index';
+
+/* Buttons
+==========
+
+    <button class="button1">Button</button>
+    <button class="button2">Button</button>
+    <button class="button3">Button</button>
+
+*/
+
+$asc-button
+  display: inline-block
+
+$asc-button-skin-default
+  color: white
+  background: blue
+
+ASCButton($selector = '.button', $skin = 'default') {
+  {$selector} {
+    ASCExtend($asc-button, $skin)
+  }
+}
+
+$asc-button-skin-other-skin
+  color: red
+  background: yellow
+
+
+ASCButton('.primary-button')
+ASCButton('.secondary-button', 'other-skin')

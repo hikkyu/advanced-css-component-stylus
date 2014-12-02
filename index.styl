@@ -1,0 +1,65 @@
+use('./eval.js');
+
+/* Global components map
+======================== */
+$ASComponents = {};
+
+/* Mixin to add component
+========================= */
+ASCRegister($componentName, $componentVariationName, $componentVariationOptions = {}) {
+  unless ($componentVariationOptions['$selector']) {
+    $componentVariationOptions = merge($componentVariationOptions, {$selector: $componentVariationName});
+  }
+
+  unless ($ASComponents[$componentName]) {
+    $ASComponents[$componentName] = {};
+  }
+
+  $ASComponents[$componentName][$componentVariationName] = $componentVariationOptions;
+}
+
+/*ASCRegister($mixin, $componentSelector, $componentOptions = {}) {
+  *//*unless ($componentOptions['$selector']) {
+    $componentOptions = merge($componentOptions, {$selector: $componentSelector});
+  }*//*
+
+  unless ($ASComponents[$componentSelector]) {
+    $ASComponents[$componentSelector] = {};
+  }
+
+  $ASComponents[$componentSelector] = merge($componentOptions, {'mixin': $mixin});
+}*/
+
+/* Mixin to configure components map
+==================================== */
+ASCConfig($componentName, $componentVariationName, $componentVariationOptions) {
+  // $components(all) > $component(ex: "inlineList") > $componentVariationName(ex: "dashboardModulesList")
+  $componentOptions = $ASComponents[$componentName][$componentVariationName];
+  $ASComponents[$componentName][$componentVariationName] = merge($componentOptions, $componentVariationOptions);
+}
+
+/* Mixin to call right placeholders
+=================================== */
+ASCExtend($placeholder, $skin) {
+  @extend {$placeholder}
+  @extend {$placeholder}-skin-{$skin}
+  /*@extends $placeholder, {$placeholder}-skin-default, {$placeholder}-skin-{$skin};*/
+}
+
+ASCExpose() {
+  for $component, $componentVariations in $ASComponents {
+    p($component)
+
+    for $componentVariationName, $componentVariationOptions in $componentVariations {
+      eval(''+$component+'()')
+    }
+
+  }
+}
+
+/*
+ASCExpose() {
+  for $component, $componentOptions in $ASComponents {
+    eval($componentOptions['mixin']+'()')
+  }
+}*/
