@@ -1,65 +1,51 @@
-use('./eval.js');
+use('./plugin/callWithObjArg.js');
 
 /* Global components map
 ======================== */
-$ASComponents = {};
+$ACComponents = {};
 
 /* Mixin to add component
 ========================= */
-ASCRegister($componentName, $componentVariationName, $componentVariationOptions = {}) {
+ACCRegister($componentName, $componentVariationName, $componentVariationOptions = {}) {
   unless ($componentVariationOptions['$selector']) {
-    $componentVariationOptions = merge($componentVariationOptions, {$selector: $componentVariationName});
+    $componentVariationOptions['$selector'] = $componentVariationName;
   }
 
-  unless ($ASComponents[$componentName]) {
-    $ASComponents[$componentName] = {};
+  unless ($ACComponents[$componentName]) {
+    $ACComponents[$componentName] = {};
   }
 
-  $ASComponents[$componentName][$componentVariationName] = $componentVariationOptions;
+  $ACComponents[$componentName][$componentVariationName] = $componentVariationOptions;
 }
-
-/*ASCRegister($mixin, $componentSelector, $componentOptions = {}) {
-  *//*unless ($componentOptions['$selector']) {
-    $componentOptions = merge($componentOptions, {$selector: $componentSelector});
-  }*//*
-
-  unless ($ASComponents[$componentSelector]) {
-    $ASComponents[$componentSelector] = {};
-  }
-
-  $ASComponents[$componentSelector] = merge($componentOptions, {'mixin': $mixin});
-}*/
 
 /* Mixin to configure components map
 ==================================== */
-ASCConfig($componentName, $componentVariationName, $componentVariationOptions) {
+ACCConfig($componentName, $componentVariationName, $componentVariationOptions) {
   // $components(all) > $component(ex: "inlineList") > $componentVariationName(ex: "dashboardModulesList")
-  $componentOptions = $ASComponents[$componentName][$componentVariationName];
-  $ASComponents[$componentName][$componentVariationName] = merge($componentOptions, $componentVariationOptions);
+  $componentOptions = $ACComponents[$componentName][$componentVariationName];
+  $ACComponents[$componentName][$componentVariationName] = extend($componentOptions, $componentVariationOptions);
 }
 
 /* Mixin to call right placeholders
 =================================== */
-ASCExtend($placeholder, $skin) {
+ACCExtend($placeholder, $skin) {
+  $placeholderSkin = $placeholder + '-skin-' + $skin
+
+  unless (selector-exists($placeholderSkin)) {
+    $placeholderSkin = $placeholder + '-skin-default'
+  }
+
   @extend {$placeholder}
-  @extend {$placeholder}-skin-{$skin}
-  /*@extends $placeholder, {$placeholder}-skin-default, {$placeholder}-skin-{$skin};*/
+  @extend {$placeholderSkin} !optional
 }
 
-ASCExpose() {
-  for $component, $componentVariations in $ASComponents {
-    p($component)
-
+/* Mixin to expose all components
+=================================== */
+ACCExpose() {
+  for $component, $componentVariations in $ACComponents {
     for $componentVariationName, $componentVariationOptions in $componentVariations {
-      eval(''+$component+'()')
+      fn = lookup($component);
+      callWithObjArg(fn, $componentVariationOptions);
     }
-
   }
 }
-
-/*
-ASCExpose() {
-  for $component, $componentOptions in $ASComponents {
-    eval($componentOptions['mixin']+'()')
-  }
-}*/

@@ -9,23 +9,23 @@
 
 */
 
-$asc-button
+$acc-button
   display: inline-block
 
-$asc-button-skin-default
+$acc-button-skin-default
   color: white
   background: blue
 
-ASCButton($selector = '.button', $skin = 'default') {
+ACCButton($selector = '.button', $skin = 'default') {
   {$selector} {
-    ASCExtend($asc-button, $skin)
+    ACCExtend($acc-button, $skin)
   }
 }
 
-$asc-button-skin-other-skin
+$acc-button-skin-other-skin
   color: red
   background: yellow
 
 
-ASCButton('.primary-button')
-ASCButton('.secondary-button', 'other-skin')
+ACCButton('.primary-button')
+ACCButton('.secondary-button', 'other-skin')

@@ -1,0 +1,55 @@
+@require '../../index';
+
+/* Buttons
+==========
+
+    <button class="button1">Button</button>
+    <button class="button2">Button</button>
+    <button class="button3">Button</button>
+
+*/
+
+$acc-button {
+    display: inline-block;
+}
+
+$acc-button__test {
+  text-decoration underline
+}
+
+$acc-button-skin-default {
+    background: blue;
+}
+
+ACCButton($selector = '.button', $color = #fff no-repeat, $skin = 'default') {
+  /* temporary comment to fix ACC call */
+  {$selector} {
+    ACCExtend('$acc-button', $skin)
+    background $color
+
+    &__test {
+      ACCExtend('$acc-button__test', $skin)
+    }
+  }
+}
+
+// Default declaration
+ACCRegister('ACCButton', '.button');
+ACCRegister('ACCButton', '.button2', {$color: (#333 repeat)});
+
+
+/* Other Skin
+============= */
+$acc-button-skin-otherSkin {
+    color: white;
+    background: red;
+}
+
+ACCConfig('ACCButton', '.button2', {$skin: 'otherSkin'});
+
+
+/* Expose method
+================ */
+// Expose them (do it in an other file)
+
+ACCExpose();
