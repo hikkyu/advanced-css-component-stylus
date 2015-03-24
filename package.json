@@ -1,0 +1,28 @@
+{
+  "name": "advanced-css-component-stylus",
+  "version": "1.0.0",
+  "description": "Stylus lib to create modular CSS components",
+  "main": "index.styl",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hikkyu/advanced-css-component-stylus.git"
+  },
+  "keywords": [
+    "stylus",
+    "css",
+    "component",
+    "modular"
+  ],
+  "author": "Hikkyu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hikkyu/advanced-css-component-stylus/issues"
+  },
+  "homepage": "https://github.com/hikkyu/advanced-css-component-stylus"
+}
