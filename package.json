@@ -1,6 +1,6 @@
 {
   "name": "advanced-css-component-stylus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Stylus lib to create modular CSS components",
   "main": "index.styl",
   "directories": {

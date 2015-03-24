@@ -1,12 +1,12 @@
-# Advanced SASS Component
-An elegant way to write sandbox SASS component.
-Compile only what you need, and offer a possibility to skin.
+# Advanced CSS Component (Stylus)
+An elegant way to write sandbox Stylus component.
+Compile only what you need, and offer a possibility to skin it.
 
 ## Installation
 
-    bower install advanced-sass-component --save
+    npm i advanced-css-component-stylus --save-dev
 
-## The sass component concept
+## The css component concept
 Imagine two similar components like this
 
 ```css
@@ -50,10 +50,10 @@ You can see a simple improvement
 }
 ```
 
-Now imagine this in sass
+Now imagine this in stylus
 
-```css
-%button {
+```stylus
+$button {
     display: block;
     width: 100%;
     padding: 10px;
@@ -62,20 +62,20 @@ Now imagine this in sass
 }
 
 .buttonLogin {
-    @extend %button;
+    @extend $button;
     background: yellow;
 }
 
 .buttonReset {
-    @extend %button;
+    @extend $button;
     background: green;
 }
 ```
 
 That's great but not really modular. Imagine to write it like this:
 
-```css
-%button {
+```stylus
+$button {
     display: block;
     width: 100%;
     padding: 10px;
@@ -83,66 +83,64 @@ That's great but not really modular. Imagine to write it like this:
     border-color: #000;
 }
 
-%button-skin-default {
+$button-skin-default {
     background: yellow;
 }
 
-@mixin button($selector: '.button', $skin: 'default') {
-    #{$selector} {
-        @extend %button;
-        @extend %button-skin-#{$skin} !optional;
+button($selector: '.button', $skin: 'default') {
+    {$selector} {
+        @extend $button;
+        @extend $button-skin-{$skin} !optional;
     }
 }
 
-@include button('.buttonLogin');
+button('.buttonLogin');
 
-%button-skin-green {
+$button-skin-green {
     background: green;
 }
-@include button('.buttonReset', 'green');
+button('.buttonReset', 'green');
 ```
 
 This is totaly modular and your component is totaly skin friendly
 
-## How to use Advanced Sass Component
+## How to use Advanced CSS Component (Stylus)
 
-### @ASCExtend
-To refine the code ASCExtend mixin extend the component default properties and the skin parameter
+### ACCExtend
+To refine the code ACCExtend mixin extend the component default properties and the skin parameter
 
 Instead of this:
 
-```scss
-@extend %button;
-@extend %button-skin-#{$skin} !optional;
+```stylus
+@extend $button;
+@extend $button-skin-{$skin} !optional;
 ```
 
 You only write this:
-```scss
-@include ASCExtend('%button', $skin);
+```stylus
+ACCExtend('$button', $skin);
 ```
 
-### @ASCRegister
+### ACCRegister
 In case of standard plugin or white label project, this is realy important to declare a component and add the possibility to configure it later.
 
-__BE CAREFULL__ You need to use exposition mixin to use this fonctionnality
 
-This mixin add a map to `$ASComponents` global variable.
+This mixin add a map to `$ACComponents` global variable.
 
 It take 3 parameters
 * componentName: ex. 'button'
 * variationName: ex. '.buttonLogin' (it become the selector if selector is undefined in the next parameter)
 * optionMap: _default: ()_ the configuration of the componentVariation (don't forget to escape the dollar in key for example: `$selector` will be `selector`)
 
-```scss
-@include ASCRegister('button', '.buttonLogin');
-@include ASCRegister('button', '.buttonReset', (skin: 'green'));
+```stylus
+ACCRegister('button', '.buttonLogin');
+ACCRegister('button', '.buttonReset', ($skin: 'green'));
 ```
 
-### @ASCConfig
+### ACCConfig
 This method allow the possibility to configure your previously registered component.
 For example `.buttonReset` become like the default button, you will write this:
 
-```scss
-@include ASCConfig('button', '.buttonReset', (skin: 'default'));
+```stylus
+ACCConfig('button', '.buttonReset', ($skin: 'default'));
 ```
-__BE CAREFULL__ You need to use exposition mixin to use this fonctionnality
